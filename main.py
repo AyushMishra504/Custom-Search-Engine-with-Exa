@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request
 from exa_py import Exa
-import json
-from bs4 import BeautifulSoup
 import requests
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
@@ -23,11 +22,13 @@ def search():
 
     try:
         # Perform a search using Exa
-        response = exa.search(query, num_results=25)
+        response = exa.search(query, num_results=5)  # Use 5 for quick testing
 
         results = []
         for result in response.results:            
-            description = getattr(response.results[0], "description", "No description available")
+            # Extract description correctly for each result
+            description = getattr(result, "description", "No description available")
+            
             results.append({
                 "url": result.url,
                 "title": result.title,
@@ -38,5 +39,6 @@ def search():
 
     except Exception as e:
         return render_template("index.html", error=f"Search failed: {str(e)}", results=[])
+
 if __name__ == "__main__":
     app.run(debug=True)
