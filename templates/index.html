@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Custom Search Engine</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Custom Search Engine</h1>
+
+      <!-- Search Form -->
+
+      <div class="search-container">
+        <a href="/" class="home-button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="30"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 2a1 1 0 0 0-.71.3L1.2 11.1A.5.5 0 0 0 1 11.5a.5.5 0 0 0 .5.5H4v8c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-6h4v6c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-8h2.5a.5.5 0 0 0 .5-.5.5.5 0 0 0-.2-.4L12.7 2.3A1 1 0 0 0 12 2z"
+            />
+          </svg>
+        </a>
+
+        <form action="/search" method="POST" class="search-box">
+          <input
+            type="text"
+            name="query"
+            placeholder="Enter your search query..."
+            required
+          />
+          <button type="submit">Search</button>
+        </form>
+      </div>
+
+      <div class="results">
+        {% if results %}
+        <h2>Search Results:</h2>
+        {% for result in results %}
+        <div class="result-item">
+          <a href="{{ result.url }}" target="_blank" class="result-title"
+            >{{ result.title }}</a
+          >
+          <p class="result-description">
+            {{ result.description if result.description else "No description
+            available" }}
+          </p>
+        </div>
+        {% endfor %} {% elif error %}
+        <p style="color: red">{{ error }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>
